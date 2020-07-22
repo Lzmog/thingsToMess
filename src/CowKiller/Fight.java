@@ -1,8 +1,11 @@
 package CowKiller;
 
+import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
+import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
+import org.powerbot.script.rt4.Constants;
 import org.powerbot.script.rt4.Npc;
 
 import java.util.Random;
@@ -10,6 +13,14 @@ import java.util.concurrent.Callable;
 
 public class Fight extends Task {
     int[] cowIds = {2790, 2791, 2793};
+    Area cowField = new Area(
+            new Tile(3242, 3298, 0),
+            new Tile(3246, 3279, 0),
+            new Tile(3253, 3278, 0),
+            new Tile(3253, 3255, 0),
+            new Tile(3265, 3255, 0),
+            new Tile(3265, 3296, 0)
+    );
 
     public Fight(ClientContext ctx) {
         super(ctx);
@@ -17,9 +28,14 @@ public class Fight extends Task {
 
     @Override
     public boolean activate() {
+
+        double healthPercent = (double) ctx.skills.level(Constants.SKILLS_HITPOINTS) / (double) ctx.skills.realLevel(Constants.SKILLS_HITPOINTS);
+
         return ctx.players.local().healthBarVisible() == false
                 && false == ctx.players.local().interacting().valid()
-                && ctx.players.local().healthPercent() >= 35;
+                && healthPercent >= 0.35
+                && false == ctx.inventory.isFull()
+                && cowField.contains(ctx.players.local());
     }
 
     @Override
