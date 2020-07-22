@@ -28,7 +28,7 @@ public class Loot extends Task {
             cow_tile = ctx.players.local().interacting().tile();
             Npc cow = (Npc) ctx.players.local().interacting();
 
-            Tile newTile = new Tile(cow_tile.x() -1, cow_tile.y() -1, cow_tile.floor());
+            Tile newTile = new Tile(cow_tile.x() - 1, cow_tile.y() - 1, cow_tile.floor());
 
             cowLootTile.add(newTile);
             System.out.println("We just added tile: " + newTile + " The cows tile was " + cow.tile());
@@ -36,7 +36,7 @@ public class Loot extends Task {
 
         boolean lootExists = false;
 
-        for (Tile tile: cowLootTile) {
+        for (Tile tile : cowLootTile) {
             if (false == ctx.groundItems.select().at(tile).id(cowhide).isEmpty()) {
                 lootExists = true;
                 break;
@@ -57,7 +57,7 @@ public class Loot extends Task {
     public void execute() {
         ArrayList<Tile> toRemove = new ArrayList<Tile>();
 
-        for (Tile tile: cowLootTile) {
+        for (Tile tile : cowLootTile) {
             if (false == ctx.groundItems.select().at(tile).id(cowhide).isEmpty()) {
                 GroundItem hide = ctx.groundItems.select().at(tile).id(cowhide).poll();
                 hide.interact("Take", hide.name());
