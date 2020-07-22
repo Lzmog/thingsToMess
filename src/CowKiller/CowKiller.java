@@ -18,9 +18,11 @@ public class CowKiller extends PollingScript<ClientContext> implements PaintList
     public void start() {
         Fight fight = new Fight(ctx);
         Loot loot = new Loot(ctx);
+        Walk walk = new Walk(ctx);
 
         task.add(fight);
         task.add(loot);
+        task.add(walk);
     }
 
     @Override
