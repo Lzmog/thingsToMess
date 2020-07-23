@@ -4,14 +4,13 @@ import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.Tile;
-import org.powerbot.script.rt4.ClientContext;
-import org.powerbot.script.rt4.Constants;
-import org.powerbot.script.rt4.Npc;
+import org.powerbot.script.rt4.*;
 
-import java.util.Random;
 import java.util.concurrent.Callable;
 
 public class Fight extends Task {
+    int shieldId = 1171;
+    int swordId = 1277;
     int[] cowIds = {2790, 2791, 2793};
     Area cowField = new Area(
             new Tile(3242, 3298, 0),
@@ -33,7 +32,7 @@ public class Fight extends Task {
 
         return ctx.players.local().healthBarVisible() == false
                 && false == ctx.players.local().interacting().valid()
-                && healthPercent >= 0.35
+//                && healthPercent >= 0.35
                 && false == ctx.inventory.isFull()
                 && cowField.contains(ctx.players.local());
     }
@@ -50,7 +49,15 @@ public class Fight extends Task {
 
         Npc cow = ctx.npcs.select().id(cowIds).nearest().select(filter).poll();
 
+
         if (cow.inViewport()) {
+            if (ctx.inventory.select().id(swordId).count(true) == 1
+                    || ctx.inventory.select().id(shieldId).count(true) == 1) {
+                for (Item i : ctx.inventory.select().id(shieldId, swordId)) {
+                    i.interact("Wield");
+                }
+            }
+
             cow.interact("Attack");
 
 //            Random random = new Random();
