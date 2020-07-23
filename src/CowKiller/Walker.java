@@ -161,7 +161,7 @@ public class Walker{
                     public Boolean call() throws Exception {
                         return p.animation() == -1 && !p.inMotion();
                     }
-                }, 1000, 3);
+                }, 300, 3);
             }
 
         }
@@ -198,7 +198,7 @@ public class Walker{
                 public Boolean call() throws Exception {
                     return p.animation() == -1 && !p.inMotion();
                 }
-            }, 1000, 3);
+            }, 300, 3);
             return true;
         }
         return false;

@@ -12,16 +12,19 @@ import java.util.ArrayList;
 
 public class CowKiller extends PollingScript<ClientContext> implements PaintListener {
     ArrayList<Task> task = new ArrayList<Task>();
+    private final Timer running = new Timer(0);
 
     @Override
     public void start() {
         Fight fight = new Fight(ctx);
         Loot loot = new Loot(ctx);
         Walk walk = new Walk(ctx);
+        Bank bank = new Bank(ctx);
 
         task.add(fight);
         task.add(loot);
         task.add(walk);
+        task.add(bank);
     }
 
     @Override
@@ -35,12 +38,15 @@ public class CowKiller extends PollingScript<ClientContext> implements PaintList
 
     @Override
     public void repaint(Graphics graphics) {
-        graphics.setColor(new Color(0, 0, 0, 180));
-        graphics.fillRect(0, 0, 300, 100);
+        graphics.drawString(" " + running.toElapsedString(), 100, 300);
+//        graphics.setColor(new Color(0, 0, 0, 180));
+//        graphics.fillRect(0, 0, 300, 100);
+//
+//        graphics.setColor(new Color(255, 255, 255));
+//        graphics.drawRect(0, 0, 300, 100);
+//
+//        graphics.drawString("Hello there", 20, 20);
 
-        graphics.setColor(new Color(255, 255, 255));
-        graphics.drawRect(0, 0, 300, 100);
-
-        graphics.drawString("Marcius nupiso sitiek karviu", 20, 20);
+//        makkanospa@enayu.com
     }
 }
