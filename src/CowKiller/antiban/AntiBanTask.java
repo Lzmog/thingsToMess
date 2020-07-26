@@ -1,6 +1,6 @@
 package CowKiller.antiban;
 
-import CowKiller.Common.CowCommon;
+import CowKiller.common.CowCommon;
 import CowKiller.Task;
 import CowKiller.utils.CommonUtil;
 import org.powerbot.script.Area;

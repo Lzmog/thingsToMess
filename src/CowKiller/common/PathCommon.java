@@ -1,4 +1,4 @@
-package CowKiller.Common;
+package CowKiller.common;
 
 import org.powerbot.script.Tile;
 

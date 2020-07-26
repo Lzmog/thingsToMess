@@ -1,7 +1,7 @@
 package CowKiller;
 
-import CowKiller.Common.CowCommon;
-import CowKiller.Common.PathCommon;
+import CowKiller.common.CowCommon;
+import CowKiller.common.PathCommon;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;

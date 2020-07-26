@@ -1,6 +1,6 @@
 package CowKiller;
 
-import CowKiller.Common.CowCommon;
+import CowKiller.common.CowCommon;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;

@@ -1,7 +1,7 @@
 package CowKiller;
 
-import CowKiller.Common.CowCommon;
-import CowKiller.Common.ItemCommon;
+import CowKiller.common.CowCommon;
+import CowKiller.common.ItemCommon;
 import CowKiller.antiban.AntiBanTask;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
