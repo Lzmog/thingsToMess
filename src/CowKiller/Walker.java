@@ -302,8 +302,8 @@ public class Walker{
     /**
      * Reverses the given path, and then calls {@link #walkPath(Tile[] t)}.
      *
-     * @param t
-     * @return
+     * @param t The tile path to be traversed
+     * @return boolean
      */
     public boolean walkPathReverse(Tile[] t){
         t = ctx.movement.newTilePath(t).reverse().toArray();

@@ -1,5 +1,6 @@
 package CowKiller;
 
+import CowKiller.Common.CowCommon;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 public class Loot extends Task {
-    int cowhide = 1739;
     Tile cow_tile = Tile.NIL;
     ArrayList<Tile> cowLootTile = new ArrayList<Tile>();
 
@@ -37,7 +37,7 @@ public class Loot extends Task {
         boolean lootExists = false;
 
         for (Tile tile : cowLootTile) {
-            if (false == ctx.groundItems.select().at(tile).id(cowhide).isEmpty()) {
+            if (false == ctx.groundItems.select().at(tile).id(CowCommon.COWHIDE_ID).isEmpty()) {
                 lootExists = true;
                 break;
             }
@@ -58,8 +58,8 @@ public class Loot extends Task {
         ArrayList<Tile> toRemove = new ArrayList<Tile>();
 
         for (Tile tile : cowLootTile) {
-            if (false == ctx.groundItems.select().at(tile).id(cowhide).isEmpty()) {
-                GroundItem hide = ctx.groundItems.select().at(tile).id(cowhide).poll();
+            if (false == ctx.groundItems.select().at(tile).id(CowCommon.COWHIDE_ID).isEmpty()) {
+                GroundItem hide = ctx.groundItems.select().at(tile).id(CowCommon.COWHIDE_ID).poll();
                 hide.interact("Take", hide.name());
 
                 Callable<Boolean> booleanCallable = new Callable<Boolean>() {

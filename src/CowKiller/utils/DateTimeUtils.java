@@ -1,18 +1,17 @@
-package CowKiller;
+package CowKiller.utils;
 
-public class Timer {
-
+public class DateTimeUtils {
     private final long length;
     private final long start;
     private long end;
 
-    public Timer(long arg0) {
+    public DateTimeUtils(long arg0) {
         this.length = arg0;
         this.start = System.currentTimeMillis();
         this.end = this.start + this.length;
     }
 
-    public Timer() {
+    public DateTimeUtils() {
         this(0);
     }
 

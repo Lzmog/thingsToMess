@@ -1,5 +1,6 @@
 package CowKiller;
 
+import CowKiller.ui.CowhideSummaryUi;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;
@@ -7,24 +8,31 @@ import org.powerbot.script.rt4.ClientContext;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @Script.Manifest(name = "Cow Killer", description = "Kills Cows and Banks Cowhides")
 
 public class CowKiller extends PollingScript<ClientContext> implements PaintListener {
+    private static final int MAJOR_VERSION = 1;
+    private static final int MINOR_VERSION = 0;
+    private static final int PATCH_VERSION = 0;
+
+    private int totalCowHidesFeathersPickedUp;
     ArrayList<Task> task = new ArrayList<Task>();
-    private final Timer running = new Timer(0);
+    private static final long START_TIME = System.currentTimeMillis();
 
     @Override
     public void start() {
-        Fight fight = new Fight(ctx);
-        Loot loot = new Loot(ctx);
-        Walk walk = new Walk(ctx);
-        Bank bank = new Bank(ctx);
+        log.info("Welcome to the basic cow killer!");
 
-        task.add(fight);
-        task.add(loot);
-        task.add(walk);
-        task.add(bank);
+        totalCowHidesFeathersPickedUp = 0;
+
+        task.addAll(Arrays.asList(
+                new Fight(ctx),
+                new Loot(ctx),
+                new Walk(ctx),
+                new Bank(ctx)
+        ));
     }
 
     @Override
@@ -38,15 +46,11 @@ public class CowKiller extends PollingScript<ClientContext> implements PaintList
 
     @Override
     public void repaint(Graphics graphics) {
-        graphics.drawString(" " + running.toElapsedString(), 100, 300);
-//        graphics.setColor(new Color(0, 0, 0, 180));
-//        graphics.fillRect(0, 0, 300, 100);
-//
-//        graphics.setColor(new Color(255, 255, 255));
-//        graphics.drawRect(0, 0, 300, 100);
-//
-//        graphics.drawString("Hello there", 20, 20);
-
-//        makkanospa@enayu.com
+        CowhideSummaryUi.ShowStatisticsSummary(
+                graphics,
+                MAJOR_VERSION + "." + MINOR_VERSION + "." + PATCH_VERSION,
+                START_TIME,
+                totalCowHidesFeathersPickedUp
+        );
     }
 }
