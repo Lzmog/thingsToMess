@@ -1,6 +1,10 @@
 package CowKiller;
 
+import CowKiller.antiban.CollectionAntiBanTask;
+import CowKiller.antiban.SwitchWorldTask;
+import CowKiller.task.*;
 import CowKiller.ui.CowhideSummaryUi;
+import CowKiller.utils.DateTimeUtils;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;
@@ -18,8 +22,10 @@ public class CowKiller extends PollingScript<ClientContext> implements PaintList
     private static final int PATCH_VERSION = 0;
 
     private int totalCowHidesFeathersPickedUp;
-    ArrayList<Task> task = new ArrayList<Task>();
+    ArrayList<AbstractTask> abstractTask = new ArrayList<AbstractTask>();
     private static final long START_TIME = System.currentTimeMillis();
+    private final DateTimeUtils running = new DateTimeUtils(180000);
+//    private final DateTimeUtils running = new DateTimeUtils(900000);
 
     @Override
     public void start() {
@@ -27,17 +33,21 @@ public class CowKiller extends PollingScript<ClientContext> implements PaintList
 
         totalCowHidesFeathersPickedUp = 0;
 
-        task.addAll(Arrays.asList(
-                new Fight(ctx),
-                new Loot(ctx),
-                new Walk(ctx),
-                new Bank(ctx)
-        ));
+        abstractTask.addAll(
+                Arrays.asList(
+                new FightTask(ctx),
+                new LootTask(ctx),
+                new WalkTask(ctx),
+                new BankTask(ctx),
+                new CollectionAntiBanTask(ctx)
+//                new SwitchWorldTask(ctx) //Have to be imporved
+            )
+        );
     }
 
     @Override
     public void poll() {
-        for (Task t : task) {
+        for (AbstractTask t : abstractTask) {
             if (t.activate()) {
                 t.execute();
             }

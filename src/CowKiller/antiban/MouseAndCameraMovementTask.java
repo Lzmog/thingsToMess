@@ -1,7 +1,7 @@
 package CowKiller.antiban;
 
 import CowKiller.common.CowCommon;
-import CowKiller.Task;
+import CowKiller.task.AbstractTask;
 import CowKiller.utils.CommonUtil;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
@@ -11,11 +11,11 @@ import org.powerbot.script.rt4.Npc;
 
 import java.awt.*;
 
-public class AntiBanTask extends Task {
+public class MouseAndCameraMovementTask extends AbstractTask {
     int[] cowIds = (new CowCommon()).getCowIds();
     Area area = new CowCommon().getArea();
 
-    public AntiBanTask(ClientContext ctx) {
+    public MouseAndCameraMovementTask(ClientContext ctx) {
         super(ctx);
     }
 

@@ -1,28 +1,30 @@
-package CowKiller;
+package CowKiller.task;
 
 import CowKiller.common.CowCommon;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
+import org.powerbot.script.rt4.Constants;
 import org.powerbot.script.rt4.GroundItem;
 import org.powerbot.script.rt4.Npc;
 
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
-public class Loot extends Task {
+public class LootTask extends AbstractTask {
     Tile cow_tile = Tile.NIL;
     ArrayList<Tile> cowLootTile = new ArrayList<Tile>();
+    private boolean statsChecker;
 
-    public Loot(ClientContext ctx) {
+    public LootTask(ClientContext ctx) {
         super(ctx);
     }
 
     @Override
     public boolean activate() {
         if (ctx.players.local().interacting().valid()
-                && false == ctx.players.local().interacting().tile().equals(cow_tile)
-                && false == ctx.players.local().inMotion()
+                && !ctx.players.local().interacting().tile().equals(cow_tile)
+                && !ctx.players.local().inMotion()
                 && ctx.players.local().speed() == 0
         ) {
             cow_tile = ctx.players.local().interacting().tile();
@@ -37,20 +39,17 @@ public class Loot extends Task {
         boolean lootExists = false;
 
         for (Tile tile : cowLootTile) {
-            if (false == ctx.groundItems.select().at(tile).id(CowCommon.COWHIDE_ID).isEmpty()) {
+            if (!ctx.groundItems.select().at(tile).id(CowCommon.COWHIDE_ID).isEmpty()) {
                 lootExists = true;
                 break;
             }
         }
 
-        if (false == ctx.inventory.isFull() && lootExists) {
-            System.out.println("Picking cowhide");
-        }
-
         return cowLootTile != null
                 && lootExists
-                && false == ctx.players.local().interacting().valid()
-                && false == ctx.inventory.isFull();
+                && !ctx.players.local().interacting().valid()
+                && !ctx.inventory.isFull()
+                && this.statsChecker;
     }
 
     @Override
@@ -58,14 +57,17 @@ public class Loot extends Task {
         ArrayList<Tile> toRemove = new ArrayList<Tile>();
 
         for (Tile tile : cowLootTile) {
-            if (false == ctx.groundItems.select().at(tile).id(CowCommon.COWHIDE_ID).isEmpty()) {
+            if (!ctx.groundItems.select().at(tile).id(CowCommon.COWHIDE_ID).isEmpty()) {
                 GroundItem hide = ctx.groundItems.select().at(tile).id(CowCommon.COWHIDE_ID).poll();
+
+                System.out.println("Picking cowhide");
+
                 hide.interact("Take", hide.name());
 
                 Callable<Boolean> booleanCallable = new Callable<Boolean>() {
                     @Override
                     public Boolean call() throws Exception {
-                        return false == hide.valid();
+                        return !hide.valid();
                     }
                 };
 
@@ -76,5 +78,11 @@ public class Loot extends Task {
         }
 
         cowLootTile.removeAll(toRemove);
+    }
+
+    private boolean statsChecker() {
+        return ctx.skills.level(Constants.SKILLS_DEFENSE) == 20
+                && ctx.skills.level(Constants.SKILLS_ATTACK) == 20
+                && ctx.skills.level(Constants.SKILLS_STRENGTH) == 20;
     }
 }

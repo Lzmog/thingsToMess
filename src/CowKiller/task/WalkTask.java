@@ -1,7 +1,8 @@
-package CowKiller;
+package CowKiller.task;
 
 import CowKiller.common.CowCommon;
 import CowKiller.common.PathCommon;
+import CowKiller.utils.WalkerUtil;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
@@ -9,13 +10,13 @@ import org.powerbot.script.rt4.ClientContext;
 
 import java.util.concurrent.Callable;
 
-public class Walk extends Task {
+public class WalkTask extends AbstractTask {
     public Area cowArea = new CowCommon().getArea();
     public Tile[] path = new PathCommon().getPath();
 
-    Walker walker = new Walker(ctx);
+    WalkerUtil walkerUtil = new WalkerUtil(ctx);
 
-    public Walk(ClientContext ctx) {
+    public WalkTask(ClientContext ctx) {
 
         super(ctx);
     }
@@ -23,7 +24,7 @@ public class Walk extends Task {
     @Override
     public boolean activate() {
         return (ctx.bank.nearest().tile().distanceTo(ctx.players.local()) > 4 && ctx.inventory.isFull())
-                || (false == ctx.inventory.isFull() && false == cowArea.contains(ctx.players.local()));
+                || (!ctx.inventory.isFull() && !cowArea.contains(ctx.players.local()));
     }
 
     @Override
@@ -43,14 +44,14 @@ public class Walk extends Task {
                     Callable<Boolean> booleanCallable = new Callable<Boolean>() {
                         @Override
                         public Boolean call() throws Exception {
-                            return false == ctx.players.local().tile().equals(currentTile);
+                            return !ctx.players.local().tile().equals(currentTile);
                         }
                     };
                     Condition.wait(booleanCallable);
                 }
 
                 Tile currentTile = ctx.players.local().tile();
-                walker.walkPath(path);
+                walkerUtil.walkPath(path);
 
                 Callable<Boolean> booleanCallable = new Callable<Boolean>() {
                     @Override
@@ -60,9 +61,9 @@ public class Walk extends Task {
                 };
 
                 Condition.wait(booleanCallable);
-            } else if (false == cowArea.contains(ctx.players.local())) {
+            } else if (!cowArea.contains(ctx.players.local())) {
                 Tile currentTile = ctx.players.local().tile();
-                walker.walkPathReverse(path);
+                walkerUtil.walkPathReverse(path);
 
                 Callable<Boolean> booleanCallable = new Callable<Boolean>() {
                     @Override

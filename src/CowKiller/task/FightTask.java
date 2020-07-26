@@ -1,30 +1,27 @@
-package CowKiller;
+package CowKiller.task;
+
 
 import CowKiller.common.CowCommon;
 import CowKiller.common.ItemCommon;
-import CowKiller.antiban.AntiBanTask;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.rt4.*;
 
 import java.util.concurrent.Callable;
 
-public class Fight extends Task {
-    public Fight(ClientContext ctx) {
+public class FightTask extends AbstractTask {
+    public FightTask(ClientContext ctx) {
         super(ctx);
     }
 
     @Override
     public boolean activate() {
-
         double healthPercent = (double) ctx.skills.level(Constants.SKILLS_HITPOINTS) / (double) ctx.skills.realLevel(Constants.SKILLS_HITPOINTS);
 
-        (new AntiBanTask(ctx)).execute();
-
-        return ctx.players.local().healthBarVisible() == false
-                && false == ctx.players.local().interacting().valid()
+        return !ctx.players.local().healthBarVisible()
+                && !ctx.players.local().interacting().valid()
                 && healthPercent >= 0.35
-                && false == ctx.inventory.isFull()
+                && !ctx.inventory.isFull()
                 && (new CowCommon()).getArea().contains(ctx.players.local());
     }
 
@@ -36,7 +33,7 @@ public class Fight extends Task {
             public boolean accept(Npc npc) {
                 boolean fighting = npc.healthBarVisible();
 
-                return false == fighting;
+                return !fighting;
             }
         };
 
@@ -45,7 +42,12 @@ public class Fight extends Task {
 
         if (cow.inViewport()) {
             if (ctx.inventory.select().id(ItemCommon.BRONZE_SWORD_ID).count(true) == 1
-                    || ctx.inventory.select().id(ItemCommon.WOODEN_SHIELD_ID).count(true) == 1) {
+                    || ctx.inventory.select().id(ItemCommon.WOODEN_SHIELD_ID).count(true) == 1)
+            {
+                if (!ctx.game.tab().equals(Game.Tab.INVENTORY)) {
+                    ctx.game.tab(Game.Tab.INVENTORY);
+                }
+
                 for (Item i : ctx.inventory.select().id(ItemCommon.WOODEN_SHIELD_ID, ItemCommon.BRONZE_SWORD_ID)) {
                     i.interact("Wield");
                 }
@@ -57,7 +59,7 @@ public class Fight extends Task {
                 @Override
                 public Boolean call() throws Exception {
                     return ctx.players.local().interacting().valid()
-                            && false == ctx.players.local().inMotion();
+                            && !ctx.players.local().inMotion();
                 }
             };
 

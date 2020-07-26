@@ -1,13 +1,13 @@
-package CowKiller;
+package CowKiller.task;
 
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 
 import java.util.concurrent.Callable;
 
-public class Bank extends Task{
+public class BankTask extends AbstractTask {
 
-    public Bank(ClientContext ctx) {
+    public BankTask(ClientContext ctx) {
         super(ctx);
     }
 
@@ -19,9 +19,9 @@ public class Bank extends Task{
 
     @Override
     public void execute() {
-        if (false == ctx.bank.opened()) {
+        if (!ctx.bank.opened()) {
 
-            if (false == ctx.bank.inViewport()) {
+            if (!ctx.bank.inViewport()) {
                 ctx.camera.turnTo(ctx.bank.nearest());
             }
 
@@ -40,7 +40,7 @@ public class Bank extends Task{
         Condition.wait(new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                return false == ctx.inventory.isFull();
+                return !ctx.inventory.isFull();
             }
         },300, 10);
     }
