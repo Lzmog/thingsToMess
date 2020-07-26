@@ -40,7 +40,7 @@ public class CowKiller extends PollingScript<ClientContext> implements PaintList
                 new WalkTask(ctx),
                 new BankTask(ctx),
                 new CollectionAntiBanTask(ctx)
-//                new SwitchWorldTask(ctx) //Have to be imporved
+//                new SwitchWorldTask(ctx) //Have to be improved
             )
         );
     }
