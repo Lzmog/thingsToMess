@@ -1,4 +1,4 @@
-package CowKiller;
+package CowKiller.utils;
 
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
@@ -11,11 +11,11 @@ import org.powerbot.script.rt4.Player;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
-public class Walker{
+public class WalkerUtil {
 
     private final ClientContext ctx;
 
-    public Walker(ClientContext ctx) {
+    public WalkerUtil(ClientContext ctx) {
         this.ctx = ctx;
     }
 
@@ -302,8 +302,8 @@ public class Walker{
     /**
      * Reverses the given path, and then calls {@link #walkPath(Tile[] t)}.
      *
-     * @param t
-     * @return
+     * @param t The tile path to be traversed
+     * @return boolean
      */
     public boolean walkPathReverse(Tile[] t){
         t = ctx.movement.newTilePath(t).reverse().toArray();
