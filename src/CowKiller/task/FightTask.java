@@ -20,7 +20,7 @@ public class FightTask extends AbstractTask {
 
         return !ctx.players.local().healthBarVisible()
                 && !ctx.players.local().interacting().valid()
-                && healthPercent >= 0.35
+//                && healthPercent >= 0.35
                 && !ctx.inventory.isFull()
                 && (new CowCommon()).getArea().contains(ctx.players.local());
     }

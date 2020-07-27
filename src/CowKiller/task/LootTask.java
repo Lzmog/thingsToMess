@@ -48,8 +48,8 @@ public class LootTask extends AbstractTask {
         return cowLootTile != null
                 && lootExists
                 && !ctx.players.local().interacting().valid()
-                && !ctx.inventory.isFull()
-                && this.statsChecker;
+                && !ctx.inventory.isFull();
+//                          && this.statsChecker;
     }
 
     @Override
@@ -78,11 +78,12 @@ public class LootTask extends AbstractTask {
         }
 
         cowLootTile.removeAll(toRemove);
+        cowLootTile.removeAll(toRemove);
     }
 
     private boolean statsChecker() {
-        return ctx.skills.level(Constants.SKILLS_DEFENSE) == 20
-                && ctx.skills.level(Constants.SKILLS_ATTACK) == 20
-                && ctx.skills.level(Constants.SKILLS_STRENGTH) == 20;
+        return ctx.skills.level(Constants.SKILLS_DEFENSE) == 15
+                && ctx.skills.level(Constants.SKILLS_ATTACK) == 15
+                && ctx.skills.level(Constants.SKILLS_STRENGTH) == 15;
     }
 }

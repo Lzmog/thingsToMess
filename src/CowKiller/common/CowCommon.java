@@ -27,7 +27,9 @@ public class CowCommon {
         return new int[]{
                 2790,
                 2791,
-                2793
+                2792,
+                2793,
+                2794,
         };
     }
 }
