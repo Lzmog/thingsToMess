@@ -12,7 +12,6 @@ import java.util.concurrent.Callable;
 
 public class WalkTask extends AbstractTask {
     public Area cowArea = new CowCommon().getArea();
-    public Tile[] path = new PathCommon().getPath();
 
     WalkerUtil walkerUtil = new WalkerUtil(ctx);
 
@@ -29,6 +28,8 @@ public class WalkTask extends AbstractTask {
 
     @Override
     public void execute() {
+        Tile[] path = new PathCommon().getPath();
+
         if (ctx.movement.energyLevel() > 20) {
             ctx.movement.running(true);
         }
