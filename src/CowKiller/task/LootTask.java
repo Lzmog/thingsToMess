@@ -48,8 +48,8 @@ public class LootTask extends AbstractTask {
         return cowLootTile != null
                 && lootExists
                 && !ctx.players.local().interacting().valid()
-                && !ctx.inventory.isFull();
-//                          && this.statsChecker;
+                && !ctx.inventory.isFull()
+                && this.statsChecker;
     }
 
     @Override
