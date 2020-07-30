@@ -14,9 +14,9 @@ public class WalkTask extends AbstractTask {
     public Area cowArea = new CowCommon().getArea();
 
     WalkerUtil walkerUtil = new WalkerUtil(ctx);
+    Tile[] path = new PathCommon().getPath();
 
     public WalkTask(ClientContext ctx) {
-
         super(ctx);
     }
 
@@ -28,7 +28,6 @@ public class WalkTask extends AbstractTask {
 
     @Override
     public void execute() {
-        Tile[] path = new PathCommon().getPath();
 
         if (ctx.movement.energyLevel() > 20) {
             ctx.movement.running(true);
@@ -42,36 +41,21 @@ public class WalkTask extends AbstractTask {
 
                     ctx.movement.step(path[0]);
 
-                    Callable<Boolean> booleanCallable = new Callable<Boolean>() {
-                        @Override
-                        public Boolean call() throws Exception {
-                            return !ctx.players.local().tile().equals(currentTile);
-                        }
-                    };
+                    Callable<Boolean> booleanCallable = () -> !ctx.players.local().tile().equals(currentTile);
                     Condition.wait(booleanCallable);
                 }
 
                 Tile currentTile = ctx.players.local().tile();
                 walkerUtil.walkPath(path);
 
-                Callable<Boolean> booleanCallable = new Callable<Boolean>() {
-                    @Override
-                    public Boolean call() throws Exception {
-                        return ctx.players.local().tile().equals(currentTile);
-                    }
-                };
+                Callable<Boolean> booleanCallable = () -> ctx.players.local().tile().equals(currentTile);
 
                 Condition.wait(booleanCallable);
             } else if (!cowArea.contains(ctx.players.local())) {
                 Tile currentTile = ctx.players.local().tile();
                 walkerUtil.walkPathReverse(path);
 
-                Callable<Boolean> booleanCallable = new Callable<Boolean>() {
-                    @Override
-                    public Boolean call() throws Exception {
-                        return ctx.players.local().tile().equals(currentTile);
-                    }
-                };
+                Callable<Boolean> booleanCallable = () -> ctx.players.local().tile().equals(currentTile);
 
                 Condition.wait(booleanCallable);
             }

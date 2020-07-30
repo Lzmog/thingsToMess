@@ -1194,7 +1194,13 @@ public class CollectionAntiBanTask extends AbstractTask {
 
     @Override
     public boolean activate() {
-        return true;
+        if (Random.nextInt(0, 99) == 50) {
+            if (Random.nextInt(0, 15) == 3) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
