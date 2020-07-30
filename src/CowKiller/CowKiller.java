@@ -1,7 +1,7 @@
 package CowKiller;
 
 import CowKiller.antiban.CollectionAntiBanTask;
-import CowKiller.antiban.SwitchWorldTask;
+import CowKiller.antiban.MouseAndCameraMovementTask;
 import CowKiller.task.*;
 import CowKiller.ui.CowhideSummaryUi;
 import CowKiller.utils.DateTimeUtils;
@@ -22,7 +22,7 @@ public class CowKiller extends PollingScript<ClientContext> implements PaintList
     private static final int PATCH_VERSION = 0;
 
     private int totalCowHidesFeathersPickedUp;
-    ArrayList<AbstractTask> abstractTask = new ArrayList<AbstractTask>();
+    ArrayList<AbstractTask> abstractTask = new ArrayList<>();
     private static final long START_TIME = System.currentTimeMillis();
     private final DateTimeUtils running = new DateTimeUtils(180000);
 //    private final DateTimeUtils running = new DateTimeUtils(900000);
@@ -37,6 +37,7 @@ public class CowKiller extends PollingScript<ClientContext> implements PaintList
                 Arrays.asList(
                 new FightTask(ctx),
                 new LootTask(ctx),
+                new MouseAndCameraMovementTask(ctx),
                 new WalkTask(ctx),
                 new BankTask(ctx),
                 new CollectionAntiBanTask(ctx)

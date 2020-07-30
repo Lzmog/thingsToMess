@@ -26,7 +26,7 @@ public class MouseAndCameraMovementTask extends AbstractTask {
     @Override
     public boolean activate() {
         return ctx.players.local().animation() == CommonUtil.PLAYER_IDLE
-                && Random.nextInt(0, 25) == 3;
+                && Random.nextInt(0, 49) == 25;
     }
 
     /**
